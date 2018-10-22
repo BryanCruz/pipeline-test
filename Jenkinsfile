@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    registry = "bryanbcruz/nginx-hello-world-2"
-    registryCredential = 'docker-bryan'
-    dockerImage = ''
+    def registry = "bryanbcruz/nginx-hello-world-2"
+    def registryCredential = 'docker-bryan'
+    def dockerImage = ''
 
     stages {
         stage('Clone from git') {
