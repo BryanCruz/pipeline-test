@@ -6,7 +6,7 @@ pipeline {
             steps {
                 git(
                     branch: 'master',
-                    url: 'git@github.com:BryanCruz/pipeline-test.git',
+                    url: 'https://github.com/BryanCruz/pipeline-test',
                     credentialsId: 'github-bryan'
                 )
 
