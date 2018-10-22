@@ -19,11 +19,10 @@ deleteDir()
     stage("start container"){
 		environment {
 			APP_NAME = 'nginx-2-teste'
-			APP_PORT = '8089'
 		}
 		sh 'docker stop $APP_NAME'
 		sh 'docker rm   $APP_NAME'
-    	sh 'docker run --name $APP_NAME -p $APP_PORT\:80 -d nginx-hello-world-2:latest'
+    	sh 'docker run --name $APP_NAME -p 8089:80 -d nginx-hello-world-2:latest'
     }
 
 
