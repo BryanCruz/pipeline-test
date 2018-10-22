@@ -5,6 +5,7 @@ pipeline {
       registry = "bryanbcruz/nginx-hello-world-2"
       registryCredential = 'docker-bryan'
       dockerImage = ''
+      dockerTag   = 'v1.0.9'
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    dockerImage = docker.build(registry + ':' + '\$(git tag | tail -1)')
+                    dockerImage = docker.build(registry + ':' + dockerTag)
                 }
             }
         }
