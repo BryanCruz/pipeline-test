@@ -17,7 +17,7 @@ deleteDir()
     }
 
     stage("testing"){
-      sh 'sudo docker run --name nginx-teste-2  nginx-hello-world-2:latest curl localhost > output.txt 2>&1'
+      sh 'docker run --name nginx-teste-2 -p 8089:80  nginx-hello-world-2:latest curl localhost > output.txt 2>&1'
       def output=readFile('output.txt').trim()
         if(!output.contains("Hello World")){
           print "Deu ruim, nem vai"
