@@ -1,9 +1,17 @@
 pipeline {
-    agent { docker { image 'node:6.3' } }
+
+	environment {
+		registry = "bryanbcruz/nginx-hello-world"
+	}
+
+    agent any
+
     stages {
-        stage('build') {
+        stage('building image') {
             steps {
-                sh 'npm --version'
+				script {
+					docker.build registry = ":$BUILD_NUMBER"
+				}
             }
         }
     }
