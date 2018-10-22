@@ -23,7 +23,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    dockerImage = docker.build(registry)
+                    dockerImage = docker.build(registry + ':' + '\$(git tag | tail -1)')
                 }
             }
         }
