@@ -1,48 +1,38 @@
-node { 
+pipeline {
+    agent any
 
-deleteDir()
+    stages {
+        stage('Clone from git') {
+            steps {
+                git(
+                    branch: 'master',
+                    url: 'git@github.com:BryanCruz/pipeline-test.git',
+                    credentialsId: 'github-bryan'
+                )
 
-    stage('Git clone/pull') {
-      git branch: "master",
-          credentialsId: "github-bryan",
-          url: "https://github.com/BryanCruz/pipeline-test"
-    }
+                sh 'git checkout \$(git tag | tail -1)'
+            }
+        }
 
-    stage("build image"){
-    	dir(env.WORKSPACE) {
-			withEnv(["DOCKER_HOST=unix:///var/run/docker.sock"]){
-				def myImage = docker.build("nginx-hello-world-2:latest")
+        stage('Docker build') {
+            steps {
+                script {
+                    docker.build('bryanbcruz/nginx-hello-world-2')
+                }
+            }
+        }
+
+        stage('Docker push') {
+			environment {
+				registryCredential = 'docker-bryan'
 			}
-      	}
+
+            steps {
+                script {
+                	docker.image('bryanbcruz/nginx-hello-world-2').push('\$(git tag | tail -1)')
+                }
+            }
+        }
     }
-
-    stage("start container"){
-		environment {
-			APP_NAME = 'nginx-2-teste'
-		}
-		sh 'docker stop $APP_NAME'
-		sh 'docker rm   $APP_NAME'
-    	sh 'docker run --name $APP_NAME -p 8089:80 -d nginx-hello-world-2:latest'
-    }
-
-
-//    stage("migration"){
-//      sh 'docker run --name lqbase liquibase-img:latest liquibase update > output.txt 2>&1'
-//      def output=readFile('output.txt').trim()
-//        if(!output.contains("Liquibase Update Successful")){
-//          print "Deu ruim, rollback"
-//        }
-//      sh 'docker rm lqbase'
-//    }
-
-    
-//     // stage("remove image"){
-//     //   sh 'docker rmi -f liquibase-img:latest'
-//     // }
-    
-//     // Liquibase Rollback Successful
-
-// step([$class: 'WsCleanup'])
-// deleteDir()
-
 }
+
