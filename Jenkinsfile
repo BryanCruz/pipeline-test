@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+	registry = "bryanbcruz/nginx-hello-world-2"
+	registryCredential = 'docker-bryan'
+	dockerImage = ''
+
     stages {
         stage('Clone from git') {
             steps {
@@ -17,19 +21,15 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    docker.build('bryanbcruz/nginx-hello-world-2')
+                    dockerImage = docker.build(registry)
                 }
             }
         }
 
         stage('Docker push') {
-			environment {
-				registryCredential = 'docker-bryan'
-			}
-
             steps {
                 script {
-                	docker.image('bryanbcruz/nginx-hello-world-2').push('\$(git tag | tail -1)')
+                	docker.image(registry).push('\$(git tag | tail -1)')
                 }
             }
         }
