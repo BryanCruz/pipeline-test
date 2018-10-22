@@ -2,6 +2,7 @@ pipeline {
 
 	environment {
 		registry = "bryanbcruz/nginx-hello-world"
+		registryCredential = 'dockerhubb'
 	}
 
     agent any
