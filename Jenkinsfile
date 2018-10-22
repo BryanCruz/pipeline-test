@@ -17,7 +17,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    docker.build('bryanbcruz/nginx-hello-world-2')
+                    docker.build('bryanbcruz/nginx-hello-world')
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
 
             steps {
                 script {
-                	docker.image('bryanbcruz/nginx-hello-world-2').push('\$(git tag | tail -1)')
+                	docker.image('bryanbcruz/nginx-hello-world').push('\$(git tag | tail -1)')
                 }
             }
         }
