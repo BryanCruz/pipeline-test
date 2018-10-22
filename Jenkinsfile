@@ -5,7 +5,7 @@ pipeline {
       registry = "bryanbcruz/nginx-hello-world-2"
       registryCredential = 'docker-bryan'
       dockerImage = ''
-      dockerTag   = 'v1.0.9'
+      dockerTag   = 'v1.0.10'
     }
 
     stages {
