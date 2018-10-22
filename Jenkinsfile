@@ -5,7 +5,7 @@ pipeline {
       registry = "bryanbcruz/nginx-hello-world-2"
       registryCredential = 'docker-bryan'
       dockerImage = ''
-      dockerTag   = 'v1.1.0'
+      dockerTag   = ''
     }
 
     stages {
@@ -18,6 +18,7 @@ pipeline {
                 )
 
                 sh 'git checkout \$(git tag | tail -1)'
+                dockerTag = '$(git tag | tail -1)'
             }
         }
 
