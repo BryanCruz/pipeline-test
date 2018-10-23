@@ -17,7 +17,7 @@ pipeline {
                     credentialsId: 'github-bryan'
                 )
                 script {
-                  env.dockerTag = sh (
+                  dockerTag = sh (
                     script: 'git tag | tail -1',
                     returnStdout: true
                   )
@@ -30,7 +30,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    dockerImage = docker.build("${env.registry}:${env.dockerTag}")
+                    dockerImage = docker.build("${registry}:${dockerTag}")
                 }
             }
         }
