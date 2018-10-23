@@ -18,11 +18,12 @@ pipeline {
                 )
 
                 sh 'git checkout \$(git tag | tail -1)'
-                dockerTag = sh (
-                  script: 'git tag | tail -1',
-                  returnStdout: true
-                )
             }
+
+            dockerTag = sh (
+              script: 'git tag | tail -1',
+              returnStdout: true
+            )
         }
 
         stage('Docker build') {
