@@ -18,7 +18,7 @@ pipeline {
                 )
 
                 sh 'git checkout \$(git tag | tail -1)'
-                dockerTag = '$(git tag | tail -1)'
+                dockerTag = sh '$(git tag | tail -1)'
             }
         }
 
