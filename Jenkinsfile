@@ -9,7 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('Clone from git and checkout to last tag') {
+        stage('Clone from git and get last tag') {
             steps {
                 git(
                     branch: 'master',
@@ -23,9 +23,13 @@ pipeline {
                     returnStdout: true
                   ).trim()
                 }
-
-                sh 'git checkout ${dockerTag}'
             }
+        }
+
+        stage('Checkout to last tag') {
+          steps {
+            sh 'git checkout ${dockerTag}'
+          }
         }
 
         stage('Docker build') {
