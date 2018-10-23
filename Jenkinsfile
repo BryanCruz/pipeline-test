@@ -16,14 +16,15 @@ pipeline {
                     url: 'https://github.com/BryanCruz/pipeline-test',
                     credentialsId: 'github-bryan'
                 )
+                script {
+                  dockerTag = sh (
+                    script: 'git tag | tail -1',
+                    returnStdout: true
+                  )
+                }
 
                 sh 'git checkout \$(git tag | tail -1)'
             }
-
-            dockerTag = sh (
-              script: 'git tag | tail -1',
-              returnStdout: true
-            )
         }
 
         stage('Docker build') {
