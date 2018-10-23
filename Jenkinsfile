@@ -5,11 +5,11 @@ pipeline {
       registry = "bryanbcruz/nginx-hello-world-2"
       registryCredential = 'docker-bryan'
       dockerImage = ''
-      dockerTag   = '1111'
+      dockerTag   = 'v1.0.0'
     }
 
     stages {
-        stage('Clone from git and get last tag') {
+        stage('Clone from git and checkout to last tag') {
             steps {
                 git(
                     branch: 'master',
@@ -22,21 +22,16 @@ pipeline {
                     script: 'git tag | tail -1',
                     returnStdout: true
                   ).trim()
+
+                  sh 'git checkout ' + dockerTag
                 }
             }
-        }
-
-        stage('Checkout to last tag') {
-          steps {
-            sh 'git checkout ${dockerTag}'
-          }
         }
 
         stage('Docker build') {
             steps {
                 script {
                     dockerImage = docker.build("${registry}:${dockerTag}")
-                    sh 'git branch'
                 }
             }
         }
@@ -46,7 +41,6 @@ pipeline {
                 script {
                   docker.withRegistry('', registryCredential) {
                     dockerImage.push()
-                	  // docker.image(registry).push('\$(git tag | tail -1)')
                   }
                 }
             }
