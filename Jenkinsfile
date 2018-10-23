@@ -9,21 +9,22 @@ pipeline {
     }
 
     stages {
-        stage('Clone from git') {
+        stage('Clone from git and checkout to last tag') {
             steps {
                 git(
                     branch: 'master',
                     url: 'https://github.com/BryanCruz/pipeline-test',
                     credentialsId: 'github-bryan'
                 )
+
                 script {
                   dockerTag = sh (
                     script: 'git tag | tail -1',
                     returnStdout: true
                   ).trim()
 
+                  sh 'git checkout \$(git tag | tail -1)'
                 }
-                sh 'git checkout \$(git tag | tail -1)'
             }
         }
 
