@@ -17,7 +17,7 @@ pipeline {
                     credentialsId: 'github-bryan'
                 )
                 script {
-                  dockerTag = sh (
+                  env.dockerTag = sh (
                     script: 'git tag | tail -1',
                     returnStdout: true
                   )
