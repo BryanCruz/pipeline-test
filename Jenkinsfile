@@ -21,8 +21,8 @@ pipeline {
                     script: 'git tag | tail -1',
                     returnStdout: true
                   ).trim()
-                }
 
+                }
                 sh 'git checkout \$(git tag | tail -1)'
             }
         }
@@ -31,6 +31,7 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build("${registry}:${dockerTag}")
+                    sh 'git branch'
                 }
             }
         }
