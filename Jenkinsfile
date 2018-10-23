@@ -22,9 +22,9 @@ pipeline {
                     script: 'git tag | tail -1',
                     returnStdout: true
                   ).trim()
-
-                  sh 'git checkout ${dockerTag}'
                 }
+
+                sh 'git checkout ${dockerTag}'
             }
         }
 
