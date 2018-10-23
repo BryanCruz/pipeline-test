@@ -20,7 +20,7 @@ pipeline {
                   dockerTag = sh (
                     script: 'git tag | tail -1',
                     returnStdout: true
-                  )
+                  ).trim()
                 }
 
                 sh 'git checkout \$(git tag | tail -1)'
@@ -30,7 +30,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    dockerImage = docker.build("${registry}:v1.2.6", "--build-arg foo=bar .")
+                    dockerImage = docker.build("${registry}:${dockerTag}", "--build-arg foo=bar .")
                 }
             }
         }
