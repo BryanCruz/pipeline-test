@@ -1,6 +1,6 @@
 pipeline {
     agent any
-//testing
+
     environment {
       registry = "bryanbcruz/nginx-hello-world-2"
       registryCredential = 'docker-bryan'
